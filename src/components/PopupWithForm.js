@@ -1,11 +1,13 @@
-export default function PopupWithForm({children, title, name, isOpen, btnText}) {
+export default function PopupWithForm({children, title, name, isOpen, btnText, onClose}) {
 
   return (
   <section className={`popup ${isOpen && 'popup_activ'}` }>
     <div className="popup__block">
 
         <button className="popup__close-icon popup__close" 
-                type="button">
+                type="button"
+                onClick={onClose}
+        >        
         </button>
         <div className="popup__form">
             <h3 className="popup__text">{title}</h3>

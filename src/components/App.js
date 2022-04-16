@@ -11,6 +11,7 @@ function App() {
   const [isPopupSaveNewPhoto, setPopupSaveNewPhoto] = React.useState(false); //попап, сохраняющий картинку
   const [isPopupAvatarUpdate, setPopupAvatarUpdate] = React.useState(false); //попап, меняющий аватар
 
+  
   function handleEditProfileClick() { 
     setPopupProfileOpened(true);
   }
@@ -22,6 +23,13 @@ function App() {
   function handleEditAvatarClick() {
     setPopupAvatarUpdate(true);
   }
+
+  function closeAllPopups() {
+    setPopupProfileOpened(false)
+    setPopupSaveNewPhoto(false)
+    setPopupAvatarUpdate(false)
+  }
+  
     return (
      
 <div className="root">
@@ -33,7 +41,7 @@ function App() {
         onEditAvatarClick={handleEditAvatarClick} //аватар 
         />
         <Footer />
-        <PopupWithForm title='Редактировать профиль' name='_profile' isOpen={isPopupProfileOpen} btnText='Сохранить'>
+        <PopupWithForm title='Редактировать профиль' name='_profile' isOpen={isPopupProfileOpen} btnText='Сохранить' onClose={closeAllPopups}>
             <input className="popup__style popup__name input"
                     placeholder='Имя'
                     type="text"
@@ -56,7 +64,7 @@ function App() {
             <span id="work-error" className="error"></span>
         </PopupWithForm>
 
-        <PopupWithForm title='Новое место' name='foto' isOpen={isPopupSaveNewPhoto} btnText='Создать'>
+        <PopupWithForm title='Новое место' name='foto' isOpen={isPopupSaveNewPhoto} btnText='Создать' onClose={closeAllPopups}>
             <input className="popup__style popup__cards input" 
                 type="text" 
                 id="name-place"
@@ -77,7 +85,7 @@ function App() {
             <span id="place-url-error" className="error"></span>
         </PopupWithForm>
 
-       <PopupWithForm title='Обновить аватар' name='update' isOpen={isPopupAvatarUpdate} btnText='Сохранить'>
+       <PopupWithForm title='Обновить аватар' name='update' isOpen={isPopupAvatarUpdate} btnText='Сохранить' onClose={closeAllPopups}>
        <span id="name-place-error-one" className="error"></span>
             <input className="popup__style popup__place input" 
                     type="url" 
@@ -89,7 +97,7 @@ function App() {
             <span id="place-url-error-two" className="error"></span>
        </PopupWithForm>
        
-        <PopupWithForm title='Вы уверены?' name='confirm' btnText='Да'>  
+        <PopupWithForm title='Вы уверены?' name='confirm' btnText='Да' onClose={closeAllPopups}>  
         </PopupWithForm>
 
         <section className="popup popup_open-foto">
