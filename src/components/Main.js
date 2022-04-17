@@ -1,22 +1,13 @@
-
-export default function Main({onEditProfile, onAddPlace, onEditAvatarClick}) {
-
-// function handleAddPlaceClick() {
-//   const popupSaveImg = document.querySelector('.popup_foto');
-//   popupSaveImg.classList.add('popup_activ')
-// }
-
-// function handleEditAvatarClick() {
-//   const popupUpdateAvatar = document.querySelector('.popup_update');
-//   popupUpdateAvatar.classList.add('popup_activ')
-// }
-
+import {api} from './../utils/Api';
+export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, userName, userDescription}) {
+   
   return (
   <main>
     <section className="profile">
         <div className="profile__about-whom">
             <div className="profile__hover-img">
                  <img className="profile__foto" 
+                      // style={{ backgroundImage: `url(${userAvatar})` }} 
                       alt="Аватар" 
                       src='' 
                       onClick={onEditAvatarClick} 
@@ -31,9 +22,9 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatarClick}) {
                                 type="button"
                                 >
                         </button>
-                        <h1 className="profile__title">Жак-Ив Кусто </h1>
+                        <h1 className="profile__title">{userName}</h1>
                   </div>
-                    <h2 className="profile__subtitle">Исследователь океана</h2>
+                    <h2 className="profile__subtitle">{userDescription}</h2>
             </div>
         </div>
 

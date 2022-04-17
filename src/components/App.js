@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../index.css';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
 import PopupWithForm from './PopupWithForm';
+import {api} from './../utils/Api';
 
 function App() {
   
   const [isPopupProfileOpen, setPopupProfileOpened] = React.useState(false); //хук для открытия попапа профайла
   const [isPopupSaveNewPhoto, setPopupSaveNewPhoto] = React.useState(false); //попап, сохраняющий картинку
   const [isPopupAvatarUpdate, setPopupAvatarUpdate] = React.useState(false); //попап, меняющий аватар
+  ///const [isuserInfo, setUserInfo] = React.useState({}); //получаем данные о пользователе
+//   const [userAvatar, setUserAvatar] = React.useEffect('avatar');
+  const [userName, setUserName] = React.useEffect('name');
+  const [userDescription, setUserDescription] = React.useEffect('about')
+//   const [card, setCardInfo] = React.useState([]); //получаем данные о пользователе
 
-  
+  //блок функций, открывающих попап
   function handleEditProfileClick() { 
     setPopupProfileOpened(true);
   }
@@ -24,12 +30,47 @@ function App() {
     setPopupAvatarUpdate(true);
   }
 
+  //закрытие попапа
   function closeAllPopups() {
     setPopupProfileOpened(false)
     setPopupSaveNewPhoto(false)
     setPopupAvatarUpdate(false)
   }
+
+  //запрос данных о пользователе и карточки
+  React.useEffect(() => {
+  api.getUserInfo()
+        .then((data) => {
+        // setUserAvatar(data.avatar);
+        setUserName(data);
+        setUserDescription(data);
+        console.log(data)
+    })
+        // .then(()=> {
+        // initCards()
+        // })
+            .catch((err) => {
+        console.log(err);
+    })
+ }, [])
   
+  //запрос данных о карточках
+//   React.useEffect(() => {
+
+//   })
+
+// запрос на карточки
+//  function initCards(id) {
+//     api.getInitialCards()
+//         .then((data) => {
+//             cardsList.setData(data)
+//             cardsList.renderItems(id)
+//     })
+//         .catch((err) => {
+//             console.log(err)
+//     })
+// }
+
     return (
      
 <div className="root">
@@ -39,13 +80,18 @@ function App() {
         onEditProfile={handleEditProfileClick} //протаскиваем отработчик из майна профайл
         onAddPlace={handleAddPlaceClick} // новая картинка
         onEditAvatarClick={handleEditAvatarClick} //аватар 
+        // setUserAvatar={userAvatar}
+        userName={userName}
+        userDescription = {userDescription}
+       
+
         />
         <Footer />
         <PopupWithForm title='Редактировать профиль' name='_profile' isOpen={isPopupProfileOpen} btnText='Сохранить' onClose={closeAllPopups}>
             <input className="popup__style popup__name input"
                     placeholder='Имя'
                     type="text"
-                    names="name" /*исправь везде name на names */
+                    name="name" 
                     defaultValue = ""
                     minLength="2"  
                     maxLength="40" 
@@ -55,7 +101,7 @@ function App() {
             <input className="popup__style popup__work input" 
                     placeholder="Профессиональная деятельность"   
                     type="text"
-                    name="job"    /*исправь везде name на names */              
+                    name="job"                 
                     defaultValue = ""
                     minLength="2" 
                     maxLength="200"
@@ -68,7 +114,7 @@ function App() {
             <input className="popup__style popup__cards input" 
                 type="text" 
                 id="name-place"
-                names="name"  /*исправь везде name на names */
+                name="name"  
                 placeholder="Название" 
                 minLength="2" 
                 maxLength="30" 
@@ -77,7 +123,7 @@ function App() {
             <span id="name-place-error" className="error"></span>
             <input className="popup__style popup__place input" 
                 type="url" 
-                names="link"  /*исправь везде name на names */
+                name="link"  
                 id="place-url"
                 placeholder="Ссылка на картинку" 
                 required
@@ -89,7 +135,7 @@ function App() {
        <span id="name-place-error-one" className="error"></span>
             <input className="popup__style popup__place input" 
                     type="url" 
-                    names="avatar"
+                    name="avatar"
                     id="avatar-id"
                     placeholder="Ссылка на картинку" 
                     required
