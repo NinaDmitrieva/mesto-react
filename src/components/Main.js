@@ -1,5 +1,40 @@
+import React, { useEffect } from 'react';
 import {api} from './../utils/Api';
-export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, userName, userDescription}) {
+import Card from './Card';
+export default function Main({onEditProfile, onAddPlace, onEditAvatarClick}) {
+
+  const [userAvatar, setUserAvatar] = React.useState();
+  const [userName, setUserName] = React.useState();
+  const [userDescription, setUserDescription] = React.useState();
+  const [cards, setCards] = React.useState(); 
+
+  React.useEffect(() => {
+    api.getUserInfo()
+        .then((data) => {
+          setUserAvatar(data.avatar);
+          setUserName(data.name);
+          setUserDescription(data.about);
+        })
+            .catch((err) => {
+            console.log(err);
+          })
+          api.getInitialCards()
+          .then((data) => {
+            setCards(data)
+            console.log(data)
+          })
+   }, [])
+
+  //  React.useEffect(() => {
+  //   api.getInitialCards()
+  //       .then(([card]) => {
+  //         setCards([card])
+  //         console.log([card])
+  //       })
+  //           .catch((err) => {
+  //           console.log(err);
+  //         })
+  //  }, [])
    
   return (
   <main>
@@ -7,9 +42,8 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, user
         <div className="profile__about-whom">
             <div className="profile__hover-img">
                  <img className="profile__foto" 
-                      // style={{ backgroundImage: `url(${userAvatar})` }} 
+                      src={userAvatar}
                       alt="Аватар" 
-                      src='' 
                       onClick={onEditAvatarClick} 
                       />
 
@@ -35,7 +69,18 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, user
                 
     </section>
 
-    <section className="elements">    
+    <section className="elements">  
+
+        {/* <div className="element">
+        {cards.map((card)=> (
+          <Card>
+              key={card._id}
+              card={card}
+          </Card>
+        ))}
+    
+        </div> */}
+      
     </section>
             
   </main>

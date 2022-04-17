@@ -4,18 +4,13 @@ import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
 import PopupWithForm from './PopupWithForm';
-import {api} from './../utils/Api';
 
 function App() {
   
   const [isPopupProfileOpen, setPopupProfileOpened] = React.useState(false); //хук для открытия попапа профайла
   const [isPopupSaveNewPhoto, setPopupSaveNewPhoto] = React.useState(false); //попап, сохраняющий картинку
   const [isPopupAvatarUpdate, setPopupAvatarUpdate] = React.useState(false); //попап, меняющий аватар
-  ///const [isuserInfo, setUserInfo] = React.useState({}); //получаем данные о пользователе
-//   const [userAvatar, setUserAvatar] = React.useEffect('avatar');
-  const [userName, setUserName] = React.useEffect('name');
-  const [userDescription, setUserDescription] = React.useEffect('about')
-//   const [card, setCardInfo] = React.useState([]); //получаем данные о пользователе
+
 
   //блок функций, открывающих попап
   function handleEditProfileClick() { 
@@ -37,40 +32,6 @@ function App() {
     setPopupAvatarUpdate(false)
   }
 
-  //запрос данных о пользователе и карточки
-  React.useEffect(() => {
-  api.getUserInfo()
-        .then((data) => {
-        // setUserAvatar(data.avatar);
-        setUserName(data);
-        setUserDescription(data);
-        console.log(data)
-    })
-        // .then(()=> {
-        // initCards()
-        // })
-            .catch((err) => {
-        console.log(err);
-    })
- }, [])
-  
-  //запрос данных о карточках
-//   React.useEffect(() => {
-
-//   })
-
-// запрос на карточки
-//  function initCards(id) {
-//     api.getInitialCards()
-//         .then((data) => {
-//             cardsList.setData(data)
-//             cardsList.renderItems(id)
-//     })
-//         .catch((err) => {
-//             console.log(err)
-//     })
-// }
-
     return (
      
 <div className="root">
@@ -80,11 +41,6 @@ function App() {
         onEditProfile={handleEditProfileClick} //протаскиваем отработчик из майна профайл
         onAddPlace={handleAddPlaceClick} // новая картинка
         onEditAvatarClick={handleEditAvatarClick} //аватар 
-        // setUserAvatar={userAvatar}
-        userName={userName}
-        userDescription = {userDescription}
-       
-
         />
         <Footer />
         <PopupWithForm title='Редактировать профиль' name='_profile' isOpen={isPopupProfileOpen} btnText='Сохранить' onClose={closeAllPopups}>
