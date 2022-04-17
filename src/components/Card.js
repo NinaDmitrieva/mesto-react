@@ -1,12 +1,15 @@
 export default function Card(props) {
 
-    return (
-        <template id="card" className="card-template">
+ function handleClick() {
+    props.onCardClick(props.card);
+  }  
+    return (   
             <div className="element"> 
 
                 <img className="element__foto" 
                         alt = {props.card.name} 
                         src = {props.card.link}
+                        onClick={handleClick}
                 />
                 <button className="element__close-icon" 
                         type="button">
@@ -22,6 +25,5 @@ export default function Card(props) {
                     </div>
                 </div>
             </div>
-        </template> 
     ) 
 }

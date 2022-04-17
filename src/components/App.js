@@ -4,13 +4,14 @@ import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
 import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 function App() {
   
   const [isPopupProfileOpen, setPopupProfileOpened] = React.useState(false); //хук для открытия попапа профайла
   const [isPopupSaveNewPhoto, setPopupSaveNewPhoto] = React.useState(false); //попап, сохраняющий картинку
   const [isPopupAvatarUpdate, setPopupAvatarUpdate] = React.useState(false); //попап, меняющий аватар
-
+  const [card, setCard] = React.useState({})
 
   //блок функций, открывающих попап
   function handleEditProfileClick() { 
@@ -25,11 +26,16 @@ function App() {
     setPopupAvatarUpdate(true);
   }
 
+  function handleCardClick(card) {
+    setCard(card);
+  }
+
   //закрытие попапа
   function closeAllPopups() {
     setPopupProfileOpened(false)
     setPopupSaveNewPhoto(false)
     setPopupAvatarUpdate(false)
+    setCard({})
   }
 
     return (
@@ -41,6 +47,7 @@ function App() {
         onEditProfile={handleEditProfileClick} //протаскиваем отработчик из майна профайл
         onAddPlace={handleAddPlaceClick} // новая картинка
         onEditAvatarClick={handleEditAvatarClick} //аватар 
+        onCardClick={handleCardClick}//просмотр картинки
         />
         <Footer />
         <PopupWithForm title='Редактировать профиль' name='_profile' isOpen={isPopupProfileOpen} btnText='Сохранить' onClose={closeAllPopups}>
@@ -101,30 +108,12 @@ function App() {
        
         <PopupWithForm title='Вы уверены?' name='confirm' btnText='Да' onClose={closeAllPopups}>  
         </PopupWithForm>
-
-        <section className="popup popup_open-foto">
-            <div className="popup__block-img">
-                <button className="popup__close-icon popup__foto-close" type="button"></button>
-                <img className="popup__img-open" alt = '' src = '#'/>
-                <h3 className="popup__foto-name"></h3>
-            </div>
-        </section>
+        
+        <ImagePopup card={card} onClose={closeAllPopups}
+        />
 
   </div>
 
-    <template id="card" className="card-template">
-        <div className="element">
-            <img className="element__foto" alt = '' src = '#'/>
-            <button className="element__close-icon" type="button"></button>
-            <div className="element__mask-group">
-                <h2 className="element__title"></h2>
-                <div className="element__like-container">
-                <button className="element__like element__click" type="button"></button>
-                <span className="element__span-like"></span>
-                </div>
-            </div>
-        </div>
-    </template> 
 </div>
 
   );
