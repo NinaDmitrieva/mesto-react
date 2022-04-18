@@ -1,4 +1,4 @@
-function Footer() {
+export default function Footer() {
     return (
         <footer className="footer">
             <p className="footer__copyright">© 2022 Mesto Russia</p>
@@ -6,4 +6,3 @@ function Footer() {
     );
   }
   
-  export default Footer;

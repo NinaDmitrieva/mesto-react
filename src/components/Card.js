@@ -1,8 +1,8 @@
 export default function Card(props) {
 
  function handleClick() {
-    props.onCardClick(props.card);
-  }  
+  props.onCardClick(props.card);
+ }  
     return (   
             <div className="element"> 
 
@@ -12,7 +12,8 @@ export default function Card(props) {
                         onClick={handleClick}
                 />
                 <button className="element__close-icon" 
-                        type="button">
+                        type="button"
+                >
                 </button>
                 <div className="element__mask-group">
                     <h2 className="element__title">{props.card.name}</h2>
@@ -21,7 +22,7 @@ export default function Card(props) {
                                 type="button"
                         >
                         </button>
-                        <span className="element__span-like"></span>
+                        <span className="element__span-like">{props.card.likes.length}</span>
                     </div>
                 </div>
             </div>

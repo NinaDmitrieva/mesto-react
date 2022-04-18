@@ -17,9 +17,6 @@ export default class Api {
             headers: this.headers,
         })
             .then(this.requestResponse)
-            // .then((data)=> {
-            //     return data
-            // });
     }
    
  

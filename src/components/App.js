@@ -6,14 +6,13 @@ import Main from './Main';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
-function App() {
+export default function App() {
   
-  const [isPopupProfileOpen, setPopupProfileOpened] = React.useState(false); //хук для открытия попапа профайла
-  const [isPopupSaveNewPhoto, setPopupSaveNewPhoto] = React.useState(false); //попап, сохраняющий картинку
-  const [isPopupAvatarUpdate, setPopupAvatarUpdate] = React.useState(false); //попап, меняющий аватар
+  const [isPopupProfileOpen, setPopupProfileOpened] = React.useState(false); 
+  const [isPopupSaveNewPhoto, setPopupSaveNewPhoto] = React.useState(false); 
+  const [isPopupAvatarUpdate, setPopupAvatarUpdate] = React.useState(false);
   const [card, setCard] = React.useState({})
 
-  //блок функций, открывающих попап
   function handleEditProfileClick() { 
     setPopupProfileOpened(true);
   }
@@ -30,7 +29,6 @@ function App() {
     setCard(card);
   }
 
-  //закрытие попапа
   function closeAllPopups() {
     setPopupProfileOpened(false)
     setPopupSaveNewPhoto(false)
@@ -44,13 +42,20 @@ function App() {
   <div className="page">
         <Header />
         <Main 
-        onEditProfile={handleEditProfileClick} //протаскиваем отработчик из майна профайл
-        onAddPlace={handleAddPlaceClick} // новая картинка
-        onEditAvatarClick={handleEditAvatarClick} //аватар 
-        onCardClick={handleCardClick}//просмотр картинки
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick} 
+        onEditAvatarClick={handleEditAvatarClick} 
+        onCardClick={handleCardClick}
         />
         <Footer />
-        <PopupWithForm title='Редактировать профиль' name='_profile' isOpen={isPopupProfileOpen} btnText='Сохранить' onClose={closeAllPopups}>
+
+        <PopupWithForm 
+          title='Редактировать профиль' 
+          name='_profile' 
+          isOpen={isPopupProfileOpen} 
+          btnText='Сохранить' 
+          onClose={closeAllPopups}
+        >
             <input className="popup__style popup__name input"
                     placeholder='Имя'
                     type="text"
@@ -73,7 +78,13 @@ function App() {
             <span id="work-error" className="error"></span>
         </PopupWithForm>
 
-        <PopupWithForm title='Новое место' name='foto' isOpen={isPopupSaveNewPhoto} btnText='Создать' onClose={closeAllPopups}>
+        <PopupWithForm 
+          title='Новое место' 
+          name='foto' 
+          isOpen={isPopupSaveNewPhoto} 
+          btnText='Создать' 
+          onClose={closeAllPopups}
+        >
             <input className="popup__style popup__cards input" 
                 type="text" 
                 id="name-place"
@@ -94,7 +105,13 @@ function App() {
             <span id="place-url-error" className="error"></span>
         </PopupWithForm>
 
-       <PopupWithForm title='Обновить аватар' name='update' isOpen={isPopupAvatarUpdate} btnText='Сохранить' onClose={closeAllPopups}>
+       <PopupWithForm 
+         title='Обновить аватар' 
+         name='update' 
+         isOpen={isPopupAvatarUpdate} 
+         btnText='Сохранить' 
+         onClose={closeAllPopups}
+        >
        <span id="name-place-error-one" className="error"></span>
             <input className="popup__style popup__place input" 
                     type="url" 
@@ -106,17 +123,21 @@ function App() {
             <span id="place-url-error-two" className="error"></span>
        </PopupWithForm>
        
-        <PopupWithForm title='Вы уверены?' name='confirm' btnText='Да' onClose={closeAllPopups}>  
+        <PopupWithForm 
+          title='Вы уверены?' 
+          name='confirm' 
+          btnText='Да' 
+          onClose={closeAllPopups}
+        >  
         </PopupWithForm>
-        
-        <ImagePopup card={card} onClose={closeAllPopups}
+
+        <ImagePopup 
+        card={card} 
+        onClose={closeAllPopups}
         />
-
   </div>
-
 </div>
-
   );
 }
 
-export default App;
+

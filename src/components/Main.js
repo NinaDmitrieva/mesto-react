@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import {api} from './../utils/Api';
 import Card from './Card';
+
 export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, onCardClick}) {
 
   const [userAvatar, setUserAvatar] = React.useState();
@@ -18,11 +19,12 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, onCa
             .catch((err) => {
             console.log(err);
           })
+
           api.getInitialCards()
           .then((cards) => {
             setCards(cards)
             console.log(cards)
-          })
+          });
    }, [])
    
   return (
