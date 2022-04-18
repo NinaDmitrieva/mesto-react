@@ -1,10 +1,3 @@
-export const settings = {
-  formSelector: '.popup__forms',
-  inputSelector: '.popup__style',
-  inputErrorClass: 'popup__error',
-  submitButtonSelector: '.popup__save',
-  submitButtonErrorClass: 'popup__button-invalid',
-};
 
 /*модальные окна */
 export const popupProfile = document.querySelector('.popup_profile');

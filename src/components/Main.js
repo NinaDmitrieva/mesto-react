@@ -4,9 +4,9 @@ import Card from './Card';
 
 export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, onCardClick}) {
 
-  const [userAvatar, setUserAvatar] = React.useState();
-  const [userName, setUserName] = React.useState();
-  const [userDescription, setUserDescription] = React.useState();
+  const [userAvatar, setUserAvatar] = React.useState(null);
+  const [userName, setUserName] = React.useState(null);
+  const [userDescription, setUserDescription] = React.useState(null);
   const [cards, setCards] = React.useState([]); 
 
   React.useEffect(() => {
@@ -23,8 +23,10 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, onCa
           api.getInitialCards()
           .then((cards) => {
             setCards(cards)
-            console.log(cards)
-          });
+          })
+          .catch((err) => {
+            console.log(err);
+          });  
    }, [])
    
   return (
@@ -32,11 +34,15 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, onCa
     <section className="profile">
         <div className="profile__about-whom">
             <div className="profile__hover-img">
-                 <img className="profile__foto" 
+                 {/* <img className="profile__foto" 
                       src={userAvatar}
                       alt="Аватар" 
                       onClick={onEditAvatarClick} 
-                      />
+                      /> */}
+                      {userAvatar && (<img className="profile__foto" 
+                      src={userAvatar} 
+                      alt="Аватар" 
+                      onClick={onEditAvatarClick} />)}
 
             </div>
             <div className="profile__profile-info">
@@ -55,9 +61,8 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, onCa
 
         <button className="profile__add-button" 
                 onClick={onAddPlace} 
-                type="button">
-        </button>
-                
+                type="button"/>
+           
     </section>
 
     <section className="elements">  
