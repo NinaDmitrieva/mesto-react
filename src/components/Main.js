@@ -1,9 +1,15 @@
 import React, { useEffect } from 'react';
-import {api} from './../utils/Api';
 import Card from './Card';
 import {CurrentUserContext}  from '../contexts/CurrentUserContext';
 
-export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, onCardClick, cards}) {
+export default function Main(
+  {onEditProfile, 
+  onAddPlace, 
+  onEditAvatarClick, 
+  cards,
+  onCardClick,  
+  onCardLike, 
+  onCardDelete}) {
 
   const currentUser = React.useContext(CurrentUserContext);
 
@@ -45,6 +51,8 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, onCa
               key={card._id}
               card={card}
               onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
             >
           </Card>
         ))}
@@ -54,5 +62,3 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatarClick, onCa
   </main>
     );
   }
-  
-  

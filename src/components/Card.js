@@ -10,16 +10,23 @@ const cardDeleteButtonClassName = (
   `element__close-icon${isOwn ? ' ' : '_remove'}`
 );
 
-// Определяем, есть ли у карточки лайк, поставленный текущим пользователем
 const isLiked = props.card.likes.some(i => i._id === currentUser._id);
 
-// Создаём переменную, которую после зададим в `className` для кнопки лайка
 const cardLikeButtonClassName = (
    `element__click ${isLiked ? 'element__like_activ' : 'element__like'}`); 
 
  function handleClick() {
   props.onCardClick(props.card);
  }  
+
+ function handleLike() {
+  props.onCardLike(props.card);
+ } 
+
+ function handleDelete() {
+  props.onCardDelete(props.card);
+ } 
+
     return (   
             <div className="element"> 
 
@@ -30,6 +37,7 @@ const cardLikeButtonClassName = (
                 />
                 <button className={cardDeleteButtonClassName}
                         type="button"
+                        onClick={handleDelete}
                 >
                 </button>
                 <div className="element__mask-group">
@@ -37,6 +45,7 @@ const cardLikeButtonClassName = (
                     <div className="element__like-container">
                         <button className={cardLikeButtonClassName}
                                 type="button"
+                                onClick={handleLike}
                         >
                         </button>
                         <span className="element__span-like">{props.card.likes.length}</span>

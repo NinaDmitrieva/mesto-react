@@ -5,12 +5,13 @@ import Footer from './Footer';
 import Main from './Main';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import EditProfilePopup from './EditProfilePopup';
 import {api} from './../utils/Api';
 import {CurrentUserContext}  from '../contexts/CurrentUserContext';
 
 export default function App() {
   
-  const [isPopupProfileOpen, setPopupProfileOpened] = React.useState(false); 
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false); 
   const [isPopupSaveNewPhoto, setPopupSaveNewPhoto] = React.useState(false); 
   const [isPopupAvatarUpdate, setPopupAvatarUpdate] = React.useState(false);
   const [card, setCard] = React.useState({});
@@ -35,8 +36,43 @@ export default function App() {
           });   
    }, [])
 
+
+   function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    api.changeLike(card._id, !isLiked).
+        then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    })
+        .catch((err)=> {
+          console.lig(err)
+        })
+} 
+
+function handleCardDelete(card) {
+  api.deleteCard(card._id).
+      then(() => {
+      setCards((state) => state.filter((c) => c._id === card._id ));
+      })
+        .catch((err)=> {
+        console.lig(err)
+       })
+} 
+
+function handleChangeUser(user) {
+  api.setUserInfo(user.name, user.about).
+      then((userData) => {
+      setCurrentUser({
+        ...currentUser,
+        name: userData.name,
+        about: userData.about
+      });
+          closeAllPopups()
+        })
+          .catch(console.log)
+    }
+
   function handleEditProfileClick() { 
-    setPopupProfileOpened(true);
+    setIsEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
@@ -53,7 +89,7 @@ export default function App() {
   }
 
   function closeAllPopups() {
-    setPopupProfileOpened(false)
+    setIsEditProfilePopupOpen(false)
     setPopupSaveNewPhoto(false)
     setPopupAvatarUpdate(false)
     setCard({})
@@ -69,38 +105,17 @@ export default function App() {
         onAddPlace={handleAddPlaceClick} 
         onEditAvatarClick={handleEditAvatarClick} 
         onCardClick={handleCardClick}
+        onCardLike={handleCardLike}
+        onCardDelete={handleCardDelete}
         cards={cards}
         />
         <Footer />
 
-        <PopupWithForm 
-          title='Редактировать профиль' 
-          name='_profile' 
-          isOpen={isPopupProfileOpen} 
-          btnText='Сохранить' 
+        <EditProfilePopup 
+          isOpen={isEditProfilePopupOpen}  
           onClose={closeAllPopups}
-        >
-            <input className="popup__style popup__name input"
-                    placeholder='Имя'
-                    type="text"
-                    name="name" 
-                    defaultValue = ""
-                    minLength="2"  
-                    maxLength="40" 
-                    id="name-card"required
-            />
-            <span id="name-card-error" className="error"></span>
-            <input className="popup__style popup__work input" 
-                    placeholder="Профессиональная деятельность"   
-                    type="text"
-                    name="job"                 
-                    defaultValue = ""
-                    minLength="2" 
-                    maxLength="200"
-                    id="work" required
-            />
-            <span id="work-error" className="error"></span>
-        </PopupWithForm>
+          onUpdateUser={handleChangeUser}
+        />
 
         <PopupWithForm 
           title='Новое место' 
