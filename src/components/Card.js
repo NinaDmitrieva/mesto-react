@@ -1,5 +1,6 @@
-import {CurrentUserContext}  from '../contexts/CurrentUserContext';
 import React from 'react';
+import {CurrentUserContext}  from '../contexts/CurrentUserContext';
+
 export default function Card(props) {
 
 const currentUser = React.useContext(CurrentUserContext);
@@ -9,7 +10,6 @@ const isOwn = props.card.owner._id === currentUser._id;
 const cardDeleteButtonClassName = (
   `element__close-icon${isOwn ? ' ' : '_remove'}`
 );
-
 const isLiked = props.card.likes.some(i => i._id === currentUser._id);
 
 const cardLikeButtonClassName = (
@@ -17,15 +17,15 @@ const cardLikeButtonClassName = (
 
  function handleClick() {
   props.onCardClick(props.card);
- }  
+ };  
 
  function handleLike() {
   props.onCardLike(props.card);
- } 
+ }; 
 
  function handleDelete() {
   props.onCardDelete(props.card);
- } 
+ }; 
 
     return (   
             <div className="element"> 

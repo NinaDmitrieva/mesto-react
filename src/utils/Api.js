@@ -20,13 +20,13 @@ export default class Api {
     }
    
  
-    addNewCard(data) { 
+    addNewCard(name, link) { 
         return fetch(`${this.baseUrl}/cards`, {
             method: 'POST',
             headers: this.headers,
             body: JSON.stringify({
-                name: data.name,
-                link: data.link,
+                name,
+                link
             })
         })
             .then(this.requestResponse)

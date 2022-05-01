@@ -19,22 +19,22 @@ export default function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
       name,
       about: description,
     });
-  }
+  };
 
   function changeName(e) {
     setName(e.target.value);
-  }
+  };
 
   function changeDescription(e) {
   setDescription(e.target.value);
-  }
+  };
 
     return (
         <PopupWithForm 
         title='Редактировать профиль' 
         name='_profile' 
-        isOpen={isOpen} 
         btnText='Сохранить' 
+        isOpen={isOpen} 
         onClose={onClose}
         onSubmit={handleSubmit}
       >
