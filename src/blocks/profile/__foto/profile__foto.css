@@ -1,11 +1,13 @@
 .profile__foto {
   border-radius: 50%;
   width: 120px;
-  /* margin: auto; */
+  height: 120px;
+  margin: auto;
+  object-fit: cover;
   justify-items: center;
   margin-right: 30px;
   position: relative;
-  z-index: 2;
+  z-index: 2;  
 
 }
 
