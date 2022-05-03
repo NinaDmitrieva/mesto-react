@@ -2,23 +2,30 @@ import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import {api} from './../utils/Api';
 import {CurrentUserContext}  from '../contexts/CurrentUserContext';
+import ConfirmPopupOpen from './ConfirmPopup';
 
 export default function App() {
   
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false); 
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false); 
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isConfirmPopupOpen, setConfirmPopupOpen] = useState(false);
   const [card, setCard] = useState({});
+  const [deletedPopup, setDeletedPopup] = useState({});
 
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]); 
+
+  function handleConfirmClick(card) {
+    setConfirmPopupOpen(true);
+    setDeletedPopup(card);
+}
 
   useEffect(() => { 
     api.getUserInfo()
@@ -54,8 +61,9 @@ export default function App() {
       setCards((state) => state.filter((c) => c._id !== card._id))
       })
         .catch((err)=> {
-        console.lig(err)
+        console.log(err)
        })
+       closeAllPopups()
   };
 
   function handleChangeUser(user) {
@@ -68,7 +76,9 @@ export default function App() {
       });
         closeAllPopups()
        })
-        .catch(console.log)
+       .catch((err)=> {
+        console.log(err)
+       })
   };
 
   function handleUpdateAvatar(data) {
@@ -80,7 +90,9 @@ export default function App() {
       });
           closeAllPopups()
         })
-        .catch(console.log)
+        .catch((err)=> {
+          console.log(err)
+         })
   }
 
   function handleAddNewCard(card) {
@@ -89,7 +101,9 @@ export default function App() {
       setCards([newCard, ...cards]);
       closeAllPopups()
     })
-    .catch(console.log)
+    .catch((err)=> {
+      console.log(err)
+     })
   };
     
   function handleEditProfileClick() { 
@@ -108,11 +122,14 @@ export default function App() {
     setCard(card);
   };
 
+
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false)
     setIsAddPlacePopupOpen(false)
     setIsEditAvatarPopupOpen(false)
+    setConfirmPopupOpen(false)
     setCard({})
+    setDeletedPopup({})
   };
 
     return (
@@ -127,7 +144,7 @@ export default function App() {
         onEditAvatarClick={handleEditAvatarClick} 
         onCardClick={handleCardClick}
         onCardLike={handleCardLike}
-        onCardDelete={handleCardDelete}
+        onCardDelete={handleConfirmClick}
         cards={cards}
         />
         <Footer />
@@ -150,17 +167,16 @@ export default function App() {
           onUpdateAvatar={handleUpdateAvatar}
         /> 
        
-        <PopupWithForm 
-          title='Вы уверены?' 
-          name='confirm' 
-          btnText='Да' 
+        <ConfirmPopupOpen
+          isOpen={isConfirmPopupOpen}
           onClose={closeAllPopups}
-        >  
-        </PopupWithForm>
+          onCardDelete={handleCardDelete}
+          card={deletedPopup}
+        />
 
         <ImagePopup 
-        card={card} 
-        onClose={closeAllPopups}
+          card={card} 
+          onClose={closeAllPopups}
         />
   </div>
 </div>

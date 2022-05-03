@@ -4,7 +4,7 @@ export default function ImagePopup({card, onClose}) {
 
   return (
 
-  <section className={`popup popup_open-foto ${card.name && 'popup_activ'}`}>
+  <section className={`popup popup_open-foto ${card.name ? 'popup_opened' : ''}`}>
 
   <div className="popup__block-img">
 
