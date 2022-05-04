@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function ConfirmPopupOpen({isOpen, onClose, onCardDelete, card}) {
+export default function ConfirmPopupOpen({isOpen, onClose, onCardDelete, card, renderLoading}) {
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -14,7 +14,7 @@ export default function ConfirmPopupOpen({isOpen, onClose, onCardDelete, card}) 
 
           title='Вы уверены?' 
           name='confirm' 
-          btnText='Да' 
+          btnText={renderLoading? 'Удаляю...' :'Да'} 
           isOpen={isOpen}
           onClose={onClose}
           onSubmit={handleSubmit}

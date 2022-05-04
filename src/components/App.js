@@ -16,6 +16,8 @@ export default function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false); 
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isConfirmPopupOpen, setConfirmPopupOpen] = useState(false);
+  const [renderLoading, setRenderLoading] = useState(false);
+
   const [card, setCard] = useState({});
   const [deletedPopup, setDeletedPopup] = useState({});
 
@@ -56,17 +58,23 @@ export default function App() {
   }; 
 
  function handleCardDelete(card) {
+  setRenderLoading(true)
    api.deleteCard(card._id).
       then(() => {
       setCards((state) => state.filter((c) => c._id !== card._id))
+      closeAllPopups()
       })
         .catch((err)=> {
         console.log(err)
        })
-       closeAllPopups()
+       .finally(()=>{
+        setRenderLoading(false)
+       })
+
   };
 
   function handleChangeUser(user) {
+    setRenderLoading(true)
     api.setUserInfo(user.name, user.about).
       then((userData) => {
       setCurrentUser({
@@ -79,9 +87,13 @@ export default function App() {
        .catch((err)=> {
         console.log(err)
        })
+       .finally(()=> {
+        setRenderLoading(false)
+       })
   };
 
   function handleUpdateAvatar(data) {
+   setRenderLoading(true)
    api.setAvatarInfo(data).
       then((data) => {
       setCurrentUser({
@@ -93,9 +105,13 @@ export default function App() {
         .catch((err)=> {
           console.log(err)
          })
+        .finally(()=>{
+          setRenderLoading(false)
+        })
   }
 
   function handleAddNewCard(card) {
+    setRenderLoading(true)
     api.addNewCard(card.name, card.link)
     .then((newCard) => {
       setCards([newCard, ...cards]);
@@ -104,8 +120,11 @@ export default function App() {
     .catch((err)=> {
       console.log(err)
      })
+     .finally(()=>{
+      setRenderLoading(false)
+     })
   };
-    
+
   function handleEditProfileClick() { 
     setIsEditProfilePopupOpen(true);
   };
@@ -132,6 +151,12 @@ export default function App() {
     setDeletedPopup({})
   };
 
+  // function handleEscClose(e) {
+  //   if (e.key === 'Escape') {
+  //     closeAllPopups()
+  //   }
+  // }
+
     return (
  <CurrentUserContext.Provider value={currentUser}>   
  <div className="root">
@@ -153,18 +178,21 @@ export default function App() {
           isOpen={isEditProfilePopupOpen}  
           onClose={closeAllPopups}
           onUpdateUser={handleChangeUser}
+          renderLoading={renderLoading}
         />
 
        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}  
           onClose={closeAllPopups}
           onAddPlace={handleAddNewCard}
+          renderLoading={renderLoading}
        />
 
         <EditAvatarPopup 
           isOpen={isEditAvatarPopupOpen} 
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          renderLoading={renderLoading}
         /> 
        
         <ConfirmPopupOpen
@@ -172,11 +200,13 @@ export default function App() {
           onClose={closeAllPopups}
           onCardDelete={handleCardDelete}
           card={deletedPopup}
+          renderLoading={renderLoading}
         />
 
         <ImagePopup 
           card={card} 
           onClose={closeAllPopups}
+        
         />
   </div>
 </div>

@@ -4,7 +4,8 @@ export default function ImagePopup({card, onClose}) {
 
   return (
 
-  <section className={`popup popup_open-foto ${card.name ? 'popup_opened' : ''}`}>
+  <section className={`popup popup_open-foto ${card.name ? 'popup_activ' : ''}`}>
+ 
 
   <div className="popup__block-img">
 
@@ -25,4 +26,6 @@ export default function ImagePopup({card, onClose}) {
   </div>
 </section>
   )
-}
+  }
+
+  
